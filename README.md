@@ -1,13 +1,12 @@
-
 # Tarefa: Roteiro de FreeRTOS #2 - EmbarcaTech 2025
 
-Autor: **Insira Seu Nome**
+Autores: Marcos Vinícius e Pedro Teixeira
 
 Curso: Residência Tecnológica em Sistemas Embarcados
 
 Instituição: EmbarcaTech - HBr
 
-Campinas, ___ de 2025
+Brasília, junho de 2025
 
 ---
 

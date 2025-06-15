@@ -2,8 +2,10 @@
 #include "task.h"
 #include <stdio.h>
 #include "pico/stdlib.h"
-
 #include "hardware/i2c.h"
+
+#define STACK_SIZE 256
+typedef void (*Multitask)(void*);
 
 void led_task() {
   const uint LED_PIN = 11;
@@ -17,10 +19,26 @@ void led_task() {
   }
 }
 
+TaskHandle_t vCreateFunction(char * name, Multitask func)
+{
+    BaseType_t xReturned;
+    TaskHandle_t xHandle = NULL;
+
+    xReturned = xTaskCreate(
+                    func,      
+                    name,         
+                    STACK_SIZE,     
+                    ( void * ) 1,    
+                    tskIDLE_PRIORITY,
+                    &xHandle );     
+
+    return xHandle;
+}
+
 int main() {
   stdio_init_all();
 
-  xTaskCreate(led_task, "LED_Task", 256, NULL, 1, NULL);
+  vCreateFunction("LED_Task", led_task);
   vTaskStartScheduler();
 
   while(1){};
