@@ -37,20 +37,32 @@ pico_sdk_init()
 
 add_executable(embarcatech-tarefa-freertos-2
     main.c
+    src/alarm.c
+    src/arming.c
+    src/noise_detector.c
+    src/ssd1306.c
+    drivers/hardware_manager.c
 )
 
 target_include_directories(embarcatech-tarefa-freertos-2 PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}
     ${CMAKE_CURRENT_LIST_DIR}/include
+    ${CMAKE_CURRENT_LIST_DIR}/include/tasks
+
 )
 
 target_link_libraries(embarcatech-tarefa-freertos-2 
     pico_stdlib 
     FreeRTOS-Kernel-Heap4 
     hardware_i2c
+    hardware_adc
+    hardware_pwm
     )
 
 pico_add_extra_outputs(embarcatech-tarefa-freertos-2)
+
+pico_enable_stdio_uart(embarcatech-tarefa-freertos-2 0)
+pico_enable_stdio_usb(embarcatech-tarefa-freertos-2 1)
 
 # if you have anything in "lib" folder then uncomment below - remember to add a CMakeLists.txt
 # file to the "lib" directory

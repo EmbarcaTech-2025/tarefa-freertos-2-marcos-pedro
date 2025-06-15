@@ -1,23 +1,17 @@
-#include "FreeRTOS.h"
-#include "task.h"
-#include <stdio.h>
-#include "pico/stdlib.h"
-#include "hardware/i2c.h"
+#include "main.h"
+
+// Tasks
+#include "alarm.h"
+#include "noise_detector.h"
+#include "arming.h"
 
 #define STACK_SIZE 256
 typedef void (*Multitask)(void*);
 
-void led_task() {
-  const uint LED_PIN = 11;
-  gpio_init(LED_PIN);
-  gpio_set_dir(LED_PIN, GPIO_OUT);
-  while (true) {
-    gpio_put(LED_PIN, 1);
-    vTaskDelay(100);
-    gpio_put(LED_PIN, 0);
-    vTaskDelay(100);
-  }
-}
+ssd1306_t *disp;
+TaskHandle_t alarm_handle;
+TaskHandle_t arming_handle;
+TaskHandle_t noise_detector_handle;
 
 TaskHandle_t vCreateFunction(char * name, Multitask func)
 {
@@ -37,8 +31,18 @@ TaskHandle_t vCreateFunction(char * name, Multitask func)
 
 int main() {
   stdio_init_all();
+  ssd1306_t temp;
+  bool success = init_hardware(&temp);
+  if (!success)
+  {
+    printf("Failed to init display. Program finished\n");
+    return 0;
+  }
+  disp = &temp;
 
-  vCreateFunction("LED_Task", led_task);
+  alarm_handle = vCreateFunction("alarm_task", vTaskAlarm);
+  arming_handle = vCreateFunction("arming_task", vTaskArming);
+  noise_detector_handle = vCreateFunction("noise_detector_task", vTaskNoiseDetector);
   vTaskStartScheduler();
 
   while(1){};
