@@ -44,6 +44,8 @@ add_executable(embarcatech-tarefa-freertos-2
     drivers/hardware_manager.c
 )
 
+pico_generate_pio_header(embarcatech-tarefa-freertos-2 ${CMAKE_CURRENT_LIST_DIR}/include/ws2818b.pio)
+
 target_include_directories(embarcatech-tarefa-freertos-2 PRIVATE
     ${CMAKE_CURRENT_LIST_DIR}
     ${CMAKE_CURRENT_LIST_DIR}/include
@@ -57,13 +59,11 @@ target_link_libraries(embarcatech-tarefa-freertos-2
     hardware_i2c
     hardware_adc
     hardware_pwm
-    )
+    hardware_clocks
+    hardware_pio
+)
 
 pico_add_extra_outputs(embarcatech-tarefa-freertos-2)
 
 pico_enable_stdio_uart(embarcatech-tarefa-freertos-2 0)
 pico_enable_stdio_usb(embarcatech-tarefa-freertos-2 1)
-
-# if you have anything in "lib" folder then uncomment below - remember to add a CMakeLists.txt
-# file to the "lib" directory
-#add_subdirectory(lib)

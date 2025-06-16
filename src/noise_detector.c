@@ -2,7 +2,6 @@
 
 void vTaskNoiseDetector(void * pvParameters) {
     for(;;) {
-        printf("ABC\n");
-        vTaskDelay(pdMS_TO_TICKS(1000));
+
     }
 }

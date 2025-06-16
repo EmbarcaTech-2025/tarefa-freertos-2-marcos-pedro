@@ -1,5 +1,3 @@
-#include "main.h"
-
 // Tasks
 #include "alarm.h"
 #include "noise_detector.h"
