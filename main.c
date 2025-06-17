@@ -11,7 +11,10 @@ TaskHandle_t alarm_handle;
 TaskHandle_t arming_handle;
 TaskHandle_t noise_detector_handle;
 
-TaskHandle_t vCreateFunction(char * name, Multitask func)
+SemaphoreHandle_t xArmedSemaphore;
+SemaphoreHandle_t xNoiseDetectedSemaphore;
+
+TaskHandle_t vCreateFunction(char * name, Multitask func, uint priority)
 {
     BaseType_t xReturned;
     TaskHandle_t xHandle = NULL;
@@ -21,7 +24,7 @@ TaskHandle_t vCreateFunction(char * name, Multitask func)
                     name,         
                     STACK_SIZE,     
                     ( void * ) 1,    
-                    tskIDLE_PRIORITY,
+                    priority,
                     &xHandle );     
 
     return xHandle;
@@ -38,9 +41,12 @@ int main() {
   }
   disp = &temp;
 
-  alarm_handle = vCreateFunction("alarm_task", vTaskAlarm);
-  arming_handle = vCreateFunction("arming_task", vTaskArming);
-  noise_detector_handle = vCreateFunction("noise_detector_task", vTaskNoiseDetector);
+  xArmedSemaphore = xSemaphoreCreateBinary();
+  xNoiseDetectedSemaphore = xSemaphoreCreateBinary();
+
+  alarm_handle = vCreateFunction("alarm_task", vTaskAlarm, 1);
+  arming_handle = vCreateFunction("arming_task", vTaskArming, 2);
+  noise_detector_handle = vCreateFunction("noise_detector_task", vTaskNoiseDetector, 3);
   vTaskStartScheduler();
 
   while(1){};

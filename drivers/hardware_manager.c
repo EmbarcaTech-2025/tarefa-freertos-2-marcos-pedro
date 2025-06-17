@@ -10,6 +10,9 @@ bool init_hardware(ssd1306_t *disp) {
         _init_joystick();
         _init_audio();
         _init_matrix_led(MATRIX_LED_PIN);
+
+        ssd1306_clear(disp);
+        ssd1306_show(disp);
     }
 
     return success;
