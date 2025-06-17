@@ -59,11 +59,6 @@ static void _init_joystick() {
     gpio_init(JOYSTICK_SW_PIN);
     gpio_set_dir(JOYSTICK_SW_PIN, GPIO_IN);
     gpio_pull_up(JOYSTICK_SW_PIN);
-
-    // ADC initialization for joystick
-    adc_init();
-    adc_gpio_init(JOYSTICK_VRY_PIN); // VRy
-    adc_gpio_init(JOYSTICK_VRX_PIN); // VRx
 }
 
 static void _init_audio() {

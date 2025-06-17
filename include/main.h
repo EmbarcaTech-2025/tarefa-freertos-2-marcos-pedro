@@ -5,6 +5,7 @@
 #include "task.h"
 #include "semphr.h"
 #include <stdio.h>
+#include <string.h>
 #include "pico/stdlib.h"
 #include "hardware_manager.h"
 
@@ -14,5 +15,8 @@ extern TaskHandle_t arming_handle;
 extern TaskHandle_t noise_detector_handle;
 extern SemaphoreHandle_t xArmedSemaphore;
 extern SemaphoreHandle_t xNoiseDetectedSemaphore;
+
+extern int direction_arr[8];
+extern int answer_arr[8];
 
 #endif
