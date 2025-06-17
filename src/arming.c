@@ -70,6 +70,8 @@ void vTaskArming(void *pvParameters)
     {
         while (disarmed)
         {
+            x = 0;
+            y = 16;
             ssd1306_draw_string(disp, 10, 8, 1, "Click any button");
             ssd1306_draw_string(disp, 32, 16, 1, "to start");
 
@@ -112,6 +114,8 @@ void vTaskArming(void *pvParameters)
                 x = 0;
 
                 //Começar a ouvir
+                xSemaphoreGive(xArmedSemaphore);
+                vTaskResume(noise_detector_handle);
 
                 break;
             }
@@ -136,9 +140,22 @@ void vTaskArming(void *pvParameters)
                 {
                     armed = false;
                     disarmed = true;
-                    ssd1306_clear(disp);
-
                     //Terminar o alarde
+                    vTaskSuspend(noise_detector_handle);
+                    vTaskSuspend(alarm_handle);
+                    ssd1306_clear(disp);
+                    npClear();
+                    npWrite();
+
+                    uint slice_num_a = pwm_gpio_to_slice_num(BUZZER_A_PIN);
+                    uint channel_num_a = pwm_gpio_to_channel(BUZZER_A_PIN);
+
+                    uint slice_num_b = pwm_gpio_to_slice_num(BUZZER_B_PIN);
+                    uint channel_num_b = pwm_gpio_to_channel(BUZZER_B_PIN);
+
+                    pwm_set_chan_level(slice_num_a, channel_num_a, 0);
+                    pwm_set_chan_level(slice_num_b, channel_num_b, 0);
+                    ssd1306_show(disp);
                 }
 
                 else

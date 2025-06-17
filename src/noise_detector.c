@@ -17,9 +17,8 @@ float mic_power()
 
 void vTaskNoiseDetector(void *pvParameters)
 {
+  xSemaphoreTake(xArmedSemaphore, portMAX_DELAY);
   ssd1306_clear(disp);
-  ssd1306_draw_string(disp, 0, 32, 1, "DON'T MAKE LOUD NOISES");
-  ssd1306_show(disp);
 
   for (;;)
   {
@@ -30,13 +29,12 @@ void vTaskNoiseDetector(void *pvParameters)
       adc_buffer[i] = adc_read();
 
     float avg = mic_power();   
-    npClear(); 
     if(avg >= SENSITIVITY_THRESHOLD) {
+      vTaskResume(alarm_handle);
       xSemaphoreGive(xNoiseDetectedSemaphore);
       vTaskSuspend(NULL);
     }     
-    npWrite();
-
+    ssd1306_draw_string(disp, 0, 32, 1, "DON'T MAKE LOUD NOISES");
     vTaskDelay(pdMS_TO_TICKS(10));
   }
 }
