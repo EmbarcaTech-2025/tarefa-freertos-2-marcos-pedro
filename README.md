@@ -87,5 +87,8 @@ The following table details the connections between the Raspberry Pi Pico W and 
 ### Obtained Results
 * The project is working as expected.
 
+### Video Demonstration
+* Link: https://youtube.com/shorts/6OT5NVtpVHg?si=DcrUbvRkyqFOZecQ
+
 ## 📜 Licença
 GNU GPL-3.0.
