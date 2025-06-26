@@ -52,9 +52,7 @@ The following table details the connections between the Raspberry Pi Pico W and 
 
 ## Images and/or videos of the project in operation
 
-<!-- TODO: Adicionar link do projeto funcionando -->
-
-*[Link to video demonstration of the project in operation]()* 
+*[Link to video demonstration of the project in operation](https://youtube.com/shorts/6OT5NVtpVHg?si=DcrUbvRkyqFOZecQ)* 
 
 ## Expected Results
 
@@ -86,9 +84,6 @@ The following table details the connections between the Raspberry Pi Pico W and 
 
 ### Obtained Results
 * The project is working as expected.
-
-### Video Demonstration
-* Link: https://youtube.com/shorts/6OT5NVtpVHg?si=DcrUbvRkyqFOZecQ
 
 ## 📜 Licença
 GNU GPL-3.0.
